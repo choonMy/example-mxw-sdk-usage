@@ -104,10 +104,10 @@ function CreateNFT() {
     };
     return token.NonFungibleToken.create(nonFungibleTokenProperties, issuer, defaultOverrides).then(token =>{
         if(token) {
-            return resolve(token);
+            return token;
         }
 
-        return reject();
+        return null;
     })
 
 }
@@ -115,7 +115,11 @@ function CreateNFT() {
 // execution started from here
 Initialize().then(() => {
     CreateNFT().then((token) => {
-        issuerNonFungibleToken = token;
+        if(token != null) {
+            issuerNonFungibleToken = token;
+            console.log("Token created : state : " + JSON.stringify(token.state));
+        }
+       
 
     }).catch(err => {
         console.log(err);
